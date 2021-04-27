@@ -10,19 +10,19 @@ import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
     var ruleLine: Int = 0
-    func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void ) -> Void {
+    func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) -> Void {
         if invocation.commandIdentifier == "Rule" {
             rule(with: invocation, completionHandler: completionHandler)
         } else if invocation.commandIdentifier == "Entry" {
             entry(with: invocation, completionHandler: completionHandler)
         }
     }
-    
+
     func rule(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) {
         let lines = invocation.buffer.lines
-        
+
         guard let firstSelection = invocation.buffer.selections.firstObject as? XCSourceTextRange,
-           firstSelection.start.line != firstSelection.end.line else {
+            firstSelection.start.line != firstSelection.end.line else {
             return
         }
         var json: String = ""
@@ -34,13 +34,13 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         print("生成的json:\(json)")
         let jsonData = json.data(using: .utf8)
         guard let jsonDic = try? JSONSerialization.jsonObject(with: jsonData!, options: .mutableContainers) as?
-                [String: Any] else {
+        [String: Any] else {
             return
         }
-        
+
         let nodes = transformNode(jsonDic: jsonDic)
         let rule = transformRule(nodes: nodes)
-        
+
         lines[firstSelection.start.line] = "\"\"\""
         lines[firstSelection.start.line + 1] = "Node"
         let ruleStartLine = firstSelection.start.line + 2
@@ -53,7 +53,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         }
         completionHandler(nil)
     }
-    
+
     func transformNode(jsonDic: [String: Any]) -> [Node] {
         let children = jsonDic.reduce(into: [Node]()) { (children, dic) in
             let node = Node.init(key: dic.key, value: dic.value)
@@ -72,7 +72,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         }
         return children
     }
-    
+
     func transformRule(nodes: [Node]) -> [String] {
         var rule = [String]()
         var childrenRule = [String]()
@@ -92,15 +92,15 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         rule.append(contentsOf: childrenRule)
         return rule
     }
-    
+
     func entry(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) {
         let lines = invocation.buffer.lines
-        
+
         guard let firstSelection = invocation.buffer.selections.firstObject as? XCSourceTextRange,
-           firstSelection.start.line != firstSelection.end.line else {
+            firstSelection.start.line != firstSelection.end.line else {
             return
         }
-        
+
         let selectionLines = lines.subarray(with: NSRange.init(location: firstSelection.start.line, length: firstSelection.end.line - firstSelection.start.line + 1)).compactMap { (any) -> String? in
             if let selection = any as? String, selection != "\"\"\"\n" {
                 return selection.replacingOccurrences(of: "\n", with: "")
@@ -108,9 +108,9 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 return nil
             }
         }
-        
+
         let rules = selectionLines.split(separator: "")
-        
+
         let entry = rules.map { (array) -> [String] in
             var initParams = [String]()
             var initCode = [String]()
@@ -118,7 +118,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 if entry.offset == 0 {
                     return "class \(entry.element): NSObject, Codable {"
                 } else {
-                    let entrySplit = entry.element.split(separator: ":").map({"\($0)"})
+                    let entrySplit = entry.element.split(separator: ":").map({ "\($0)" })
                     initParams.append("\(entrySplit[0]): \(entrySplit[1])")
                     initCode.append("self.\(entrySplit[0]) = \(entrySplit[0])")
                     return "    let \(entrySplit[0]): \(entrySplit[1])"
@@ -149,7 +149,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 entryLine += 1
             }
         }
-        
+
         completionHandler(nil)
     }
 }

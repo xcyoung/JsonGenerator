@@ -23,7 +23,7 @@ class Node: NSObject {
     let key: String
     let type: NodeType
     var children: [Node] = []
-    
+
     init(key: String, value: Any) {
         self.key = key
         let type: NodeType
@@ -46,7 +46,7 @@ class Node: NSObject {
         }
         self.type = type
     }
-    
+
     var typeName: String {
         if type == .typeArray {
             return "\(key.capitalized)ArrayNode"
@@ -56,7 +56,7 @@ class Node: NSObject {
             return "\(type.rawValue)"
         }
     }
-    
+
     override var description: String {
         return "\(key):\(typeName)"
     }
