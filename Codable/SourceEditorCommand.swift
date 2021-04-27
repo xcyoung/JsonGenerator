@@ -9,7 +9,7 @@ import Foundation
 import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
-    var ruleLine: Int = 0
+    
     func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) -> Void {
         if invocation.commandIdentifier == "Rule" {
             rule(with: invocation, completionHandler: completionHandler)
@@ -31,7 +31,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 json += line
             }
         }
-        print("生成的json:\(json)")
+        INFO(items: "获取选中部分生成的json", json)
         let jsonData = json.data(using: .utf8)
         guard let jsonDic = try? JSONSerialization.jsonObject(with: jsonData!, options: .mutableContainers) as?
         [String: Any] else {

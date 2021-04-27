@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A43AACA262B39F80000AD96 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF92716262B02B800997BAE /* XcodeKit.framework */; };
 		3A43AACB262B39F80000AD96 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF92716262B02B800997BAE /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3A585574263869E100EDD748 /* MCDLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A585573263869E100EDD748 /* MCDLogger.swift */; };
 		3AAA11D3263065D700E8EED1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA11D2263065D700E8EED1 /* Node.swift */; };
 		3AF926FE262B010500997BAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF926FD262B010500997BAE /* AppDelegate.swift */; };
 		3AF92700262B010500997BAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF926FF262B010500997BAE /* ViewController.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3A585573263869E100EDD748 /* MCDLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCDLogger.swift; sourceTree = "<group>"; };
 		3AAA11D2263065D700E8EED1 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		3AF926FA262B010500997BAE /* JsonGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JsonGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF926FD262B010500997BAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				3AAA11D2263065D700E8EED1 /* Node.swift */,
 				3AF9271D262B02B800997BAE /* Info.plist */,
 				3AF9271E262B02B800997BAE /* Codable.entitlements */,
+				3A585573263869E100EDD748 /* MCDLogger.swift */,
 			);
 			path = Codable;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			files = (
 				3AAA11D3263065D700E8EED1 /* Node.swift in Sources */,
 				3AF9271A262B02B800997BAE /* SourceEditorExtension.swift in Sources */,
+				3A585574263869E100EDD748 /* MCDLogger.swift in Sources */,
 				3AF9271C262B02B800997BAE /* SourceEditorCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
