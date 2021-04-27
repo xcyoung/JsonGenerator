@@ -21,12 +21,12 @@ class SourceEditorExtension: NSObject, XCSourceEditorExtension {
         return [
             [
                 XCSourceEditorCommandDefinitionKey.nameKey: "Rule",
-                XCSourceEditorCommandDefinitionKey.classNameKey: SourceEditorCommand.className(),
+                XCSourceEditorCommandDefinitionKey.classNameKey: RuleCommand.className(),
                 XCSourceEditorCommandDefinitionKey.identifierKey: "Rule",
             ],
             [
                 XCSourceEditorCommandDefinitionKey.nameKey: "Entry",
-                XCSourceEditorCommandDefinitionKey.classNameKey: SourceEditorCommand.className(),
+                XCSourceEditorCommandDefinitionKey.classNameKey: EntryCommand.className(),
                 XCSourceEditorCommandDefinitionKey.identifierKey: "Entry",
             ]
         ]

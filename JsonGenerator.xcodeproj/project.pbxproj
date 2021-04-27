@@ -10,6 +10,8 @@
 		3A43AACA262B39F80000AD96 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF92716262B02B800997BAE /* XcodeKit.framework */; };
 		3A43AACB262B39F80000AD96 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF92716262B02B800997BAE /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3A585574263869E100EDD748 /* MCDLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A585573263869E100EDD748 /* MCDLogger.swift */; };
+		3A58557826386F6900EDD748 /* RuleCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A58557726386F6900EDD748 /* RuleCommand.swift */; };
+		3A58557C26386FE100EDD748 /* EntryCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A58557B26386FE100EDD748 /* EntryCommand.swift */; };
 		3AAA11D3263065D700E8EED1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAA11D2263065D700E8EED1 /* Node.swift */; };
 		3AF926FE262B010500997BAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF926FD262B010500997BAE /* AppDelegate.swift */; };
 		3AF92700262B010500997BAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF926FF262B010500997BAE /* ViewController.swift */; };
@@ -58,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		3A585573263869E100EDD748 /* MCDLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCDLogger.swift; sourceTree = "<group>"; };
+		3A58557726386F6900EDD748 /* RuleCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleCommand.swift; sourceTree = "<group>"; };
+		3A58557B26386FE100EDD748 /* EntryCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCommand.swift; sourceTree = "<group>"; };
 		3AAA11D2263065D700E8EED1 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		3AF926FA262B010500997BAE /* JsonGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JsonGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF926FD262B010500997BAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A58557626386F4B00EDD748 /* command */ = {
+			isa = PBXGroup;
+			children = (
+				3A58557726386F6900EDD748 /* RuleCommand.swift */,
+				3A58557B26386FE100EDD748 /* EntryCommand.swift */,
+			);
+			path = command;
+			sourceTree = "<group>";
+		};
 		3AF926F1262B010500997BAE = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +152,7 @@
 		3AF92718262B02B800997BAE /* Codable */ = {
 			isa = PBXGroup;
 			children = (
+				3A58557626386F4B00EDD748 /* command */,
 				3AF92719262B02B800997BAE /* SourceEditorExtension.swift */,
 				3AF9271B262B02B800997BAE /* SourceEditorCommand.swift */,
 				3AAA11D2263065D700E8EED1 /* Node.swift */,
@@ -260,6 +274,8 @@
 			files = (
 				3AAA11D3263065D700E8EED1 /* Node.swift in Sources */,
 				3AF9271A262B02B800997BAE /* SourceEditorExtension.swift in Sources */,
+				3A58557C26386FE100EDD748 /* EntryCommand.swift in Sources */,
+				3A58557826386F6900EDD748 /* RuleCommand.swift in Sources */,
 				3A585574263869E100EDD748 /* MCDLogger.swift in Sources */,
 				3AF9271C262B02B800997BAE /* SourceEditorCommand.swift in Sources */,
 			);
