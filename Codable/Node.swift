@@ -9,13 +9,13 @@ import Foundation
 
 enum NodeType: String {
     case typeString = "String"
+    case typeInt64 = "Int64"
     case typeInt = "Int"
     case typeFloat = "Float"
     case typeDouble = "Double"
     case typeBool = "Bool"
     case typeArray = "Array"
     case typeDictionary = "Dictionary"
-    case typeClass = "Class"
     case typeUnkown = "Unkown"
 }
 
@@ -59,5 +59,12 @@ class Node: NSObject {
 
     override var description: String {
         return "\(key):\(typeName)"
+    }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let node = object as? Node else {
+            return false
+        }
+        return node.key == self.key
     }
 }

@@ -9,6 +9,8 @@ import Foundation
 import XcodeKit
 
 class RuleCommand: NSObject, XCSourceEditorCommand {
+    static let TERMINATOR: String = "\"\"\""
+    static let SEPARATOR: String = ""
 
     func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) {
         exec(with: invocation, completionHandler: completionHandler)
@@ -21,13 +23,14 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
             firstSelection.start.line != firstSelection.end.line else {
             return
         }
-        var json: String = ""
-        for lineIndex in firstSelection.start.line...firstSelection.end.line {
-            if let line = lines[lineIndex] as? String {
-                json += line
+
+        let json = lines.subarray(with: NSRange.init(location: firstSelection.start.line, length: firstSelection.end.line - firstSelection.start.line + 1)).reduce(into: "") { (res, line) in
+            if let line = line as? String {
+                res += line
             }
         }
         INFO(items: "获取选中部分生成的json", json)
+        
         let jsonData = json.data(using: .utf8)
         guard let jsonDic = try? JSONSerialization.jsonObject(with: jsonData!, options: .mutableContainers) as?
         [String: Any] else {
@@ -36,16 +39,17 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
 
         let nodes = transformNode(jsonDic: jsonDic)
         let rule = transformRule(nodes: nodes)
-
-        lines[firstSelection.start.line] = "\"\"\""
+        
+        lines[firstSelection.start.line] = RuleCommand.TERMINATOR
         lines[firstSelection.start.line + 1] = "Node"
         let ruleStartLine = firstSelection.start.line + 2
         for i in 0..<rule.count {
             lines[ruleStartLine + i] = rule[i]
         }
-        lines[ruleStartLine + rule.count] = "\"\"\""
+        lines[ruleStartLine + rule.count] = RuleCommand.TERMINATOR
+        //  fill the rest
         for i in ruleStartLine + rule.count + 1..<lines.count {
-            lines[i] = ""
+            lines[i] = RuleCommand.SEPARATOR
         }
         completionHandler(nil)
     }
@@ -83,7 +87,7 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
             }
         }
         if !childrenRule.isEmpty {
-            rule.append("")
+            rule.append(RuleCommand.SEPARATOR)
         }
         rule.append(contentsOf: childrenRule)
         return rule
