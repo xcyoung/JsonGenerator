@@ -8,6 +8,13 @@
 import Foundation
 import XcodeKit
 
+/**
+    """
+    class/struct
+
+    let/var:Key:Type(:?:Default)
+    """
+*/
 class EntryCommand: NSObject, XCSourceEditorCommand {
 
     func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) {
@@ -32,37 +39,19 @@ class EntryCommand: NSObject, XCSourceEditorCommand {
 
         let rules = selectionLines.split(separator: "")
 
-        let entry = rules.map { (array) -> [String] in
-            var initParams = [String]()
-            var initCode = [String]()
-            var a = array.enumerated().map { (entry) -> String in
-                if entry.offset == 0 {
-                    return "class \(entry.element): NSObject, Codable {"
+        let entry = rules.map { (oneNode) -> [String] in
+            let entryNode = EntryNode.init()
+            
+            oneNode.enumerated().forEach { (node) in
+                if node.offset == 0 {
+                    entryNode.nodeName = node.element
                 } else {
-                    let entrySplit = entry.element.split(separator: ":").map({ "\($0)" })
-                    initParams.append("\(entrySplit[0]): \(entrySplit[1])")
-                    initCode.append("self.\(entrySplit[0]) = \(entrySplit[0])")
-                    return "    let \(entrySplit[0]): \(entrySplit[1])"
+                    entryNode.addAttributes(rule: node.element)
                 }
             }
-            a.append("\n")
-            initParams.enumerated().forEach { (entry) in
-                if entry.offset == 0 {
-                    a.append("    init(\(entry.element),")
-                } else if entry.offset == initParams.count - 1 {
-                    a.append("         \(entry.element)) {")
-                } else {
-                    a.append("         \(entry.element),")
-                }
-            }
-            initCode.enumerated().forEach { (entry) in
-                a.append("         \(entry.element)")
-            }
-            a.append("    }")
-            a.append("\n")
-            a.append("}")
-            return a
+            return entryNode.generateEntry()
         }
+        
         var entryLine = firstSelection.start.line
         entry.forEach { (entry) in
             entry.forEach { (code) in

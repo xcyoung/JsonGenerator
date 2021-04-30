@@ -58,7 +58,7 @@ class Node: NSObject {
     }
 
     override var description: String {
-        return "\(key):\(typeName)"
+        return "let:\(key):\(typeName)"
     }
 
     override func isEqual(_ object: Any?) -> Bool {

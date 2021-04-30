@@ -7,7 +7,13 @@
 
 import Foundation
 import XcodeKit
+/**
+    """
+    class/struct
 
+    let/var:Key:Type(:?:Default)
+    """
+*/
 class RuleCommand: NSObject, XCSourceEditorCommand {
     static let TERMINATOR: String = "\"\"\""
     static let SEPARATOR: String = ""
@@ -30,7 +36,7 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
             }
         }
         INFO(items: "获取选中部分生成的json", json)
-        
+
         let jsonData = json.data(using: .utf8)
         guard let jsonDic = try? JSONSerialization.jsonObject(with: jsonData!, options: .mutableContainers) as?
         [String: Any] else {
@@ -39,7 +45,7 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
 
         let nodes = transformNode(jsonDic: jsonDic)
         let rule = transformRule(nodes: nodes)
-        
+
         lines[firstSelection.start.line] = RuleCommand.TERMINATOR
         lines[firstSelection.start.line + 1] = "Node"
         let ruleStartLine = firstSelection.start.line + 2
@@ -48,7 +54,7 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
         }
         lines[ruleStartLine + rule.count] = RuleCommand.TERMINATOR
         //  fill the rest
-        for i in ruleStartLine + rule.count + 1..<lines.count {
+        for i in ruleStartLine + rule.count + 1..<firstSelection.end.line {
             lines[i] = RuleCommand.SEPARATOR
         }
         completionHandler(nil)
