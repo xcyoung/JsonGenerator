@@ -27,14 +27,14 @@ class EntryNode: NSObject {
         return entry
     }
 
-    func addAttributes(rule: String) {
+    func addAttributes(rule: String) throws {
         //  TODO: emmmmm，这个判断有点扯
         if rule.contains("?:"), !needDecoder {
             needDecoder = true
         }
         let entrySplit: [String] = rule.split(separator: ":").map({ "\($0)" })
         if entrySplit.count < 3 {
-
+            throw ExecError.create("rule format should be: let/var:Key:Type(:?:Default)")
         } else if entrySplit.count == 3 {
             let result = parseEntryCount3(entrySplit: entrySplit)
             nodeParams.append(result.define)

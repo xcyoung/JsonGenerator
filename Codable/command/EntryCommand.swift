@@ -26,6 +26,7 @@ class EntryCommand: NSObject, XCSourceEditorCommand {
 
         guard let firstSelection = invocation.buffer.selections.firstObject as? XCSourceTextRange,
             firstSelection.start.line != firstSelection.end.line else {
+            completionHandler(nil)
             return
         }
 
@@ -38,28 +39,33 @@ class EntryCommand: NSObject, XCSourceEditorCommand {
         }
 
         let rules = selectionLines.split(separator: "")
-
-        let entry = rules.map { (oneNode) -> [String] in
-            let entryNode = EntryNode.init()
+        
+        do {
+            let entry = try rules.map { (oneNode) -> [String] in
+                let entryNode = EntryNode.init()
+                
+                try oneNode.enumerated().forEach { (node) in
+                    if node.offset == 0 {
+                        entryNode.nodeName = node.element
+                    } else {
+                        try entryNode.addAttributes(rule: node.element)
+                    }
+                }
+                return entryNode.generateEntry()
+            }
             
-            oneNode.enumerated().forEach { (node) in
-                if node.offset == 0 {
-                    entryNode.nodeName = node.element
-                } else {
-                    entryNode.addAttributes(rule: node.element)
+            var entryLine = firstSelection.start.line
+            entry.forEach { (entry) in
+                entry.forEach { (code) in
+                    lines[entryLine] = code
+                    entryLine += 1
                 }
             }
-            return entryNode.generateEntry()
+        } catch {
+            completionHandler(error)
+            return
         }
         
-        var entryLine = firstSelection.start.line
-        entry.forEach { (entry) in
-            entry.forEach { (code) in
-                lines[entryLine] = code
-                entryLine += 1
-            }
-        }
-
         completionHandler(nil)
     }
 }

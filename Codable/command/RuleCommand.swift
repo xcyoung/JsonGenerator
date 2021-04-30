@@ -27,6 +27,7 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
 
         guard let firstSelection = invocation.buffer.selections.firstObject as? XCSourceTextRange,
             firstSelection.start.line != firstSelection.end.line else {
+            completionHandler(nil)
             return
         }
 
@@ -40,6 +41,7 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
         let jsonData = json.data(using: .utf8)
         guard let jsonDic = try? JSONSerialization.jsonObject(with: jsonData!, options: .mutableContainers) as?
         [String: Any] else {
+            completionHandler(ExecError.create("selection should be json format"))
             return
         }
 
