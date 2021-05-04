@@ -16,15 +16,22 @@
 
 json:
 >   {
+>   
 >       "id": 12345,
+>       
 >       "title": "abcd"
+>       
 >   }
 
 rule:
 >   """
+>   
 >   Node
+>   
 >   let:title:String
+>   
 >   let:id:Int
+>   
 >   """
 
 ![Rule](./Rule.gif)
