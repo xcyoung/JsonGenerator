@@ -56,9 +56,9 @@ class RuleCommand: NSObject, XCSourceEditorCommand {
         }
         lines[ruleStartLine + rule.count] = RuleCommand.TERMINATOR
         //  fill the rest
-        for i in ruleStartLine + rule.count + 1..<firstSelection.end.line {
-            lines[i] = RuleCommand.SEPARATOR
-        }
+//        for i in ruleStartLine + rule.count + 1..<firstSelection.end.line {
+//            lines[i] = RuleCommand.SEPARATOR
+//        }
         completionHandler(nil)
     }
 
